@@ -1,10 +1,13 @@
 # CyberShield AI — AI-Powered Financial Prediction, Fraud Detection & Cybercrime Intelligence Portal
 
+[![Live Website](https://img.shields.io/badge/Live_Website-Online-success?logo=github-pages)](https://jagadiswar2050.github.io/CyberShield-AI/)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Jagadiswar2050%2FCyberShield--AI-gold?logo=github)](https://github.com/Jagadiswar2050/CyberShield-AI)
 [![Creator Website](https://img.shields.io/badge/Creator_Website-Audit3A-amber?logo=google-chrome)](https://www.audit3a.com/)
 [![License: Academic](https://img.shields.io/badge/License-Academic%20Research-blue.svg)](LICENSE)
 
 An independent academic cybersecurity command-center web application combining machine learning transaction anomaly scoring, financial time-series forecasting, and official cyber safety intelligence.
+
+🌐 **Live Deployed Website:** **[https://jagadiswar2050.github.io/CyberShield-AI/](https://jagadiswar2050.github.io/CyberShield-AI/)**
 
 ---
 
