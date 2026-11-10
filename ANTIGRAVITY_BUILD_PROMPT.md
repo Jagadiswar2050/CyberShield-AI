@@ -6,7 +6,8 @@ Build a complete, polished, responsive, secure full-stack web application named 
 **Title:** AI-Powered Financial Prediction, Fraud Detection & Cybercrime Intelligence Portal  
 **Academic context:** B.Tech Computer Science & Technology major project  
 **Owner / intended host Super Admin:** Thallapaka Jagadiswar  
-**Owner email:** jagadishkrishna7@gmail.com
+**Owner email:** jagadishkrishna7@gmail.com  
+**Owner website:** [https://www.audit3a.com/](https://www.audit3a.com/)
 
 The site is an independent academic and public-awareness platform. Do not impersonate a government agency, police department, regulator, or bank. Display a clear disclaimer that it is an independent educational/research project.
 
