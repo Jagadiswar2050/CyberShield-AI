@@ -61,3 +61,4 @@ def get_tirupati_scenario():
 def get_model_evaluation_metrics():
     """Returns model validation metrics: precision, recall, F1, PR-AUC, and FPR."""
     return fraud_detector.metrics
+

@@ -119,3 +119,4 @@ export const Register: React.FC<RegisterProps> = ({ setCurrentTab }) => {
     </div>
   );
 };
+

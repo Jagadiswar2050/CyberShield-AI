@@ -167,3 +167,4 @@ export const UpiFraudLearning: React.FC = () => {
     </div>
   );
 };
+

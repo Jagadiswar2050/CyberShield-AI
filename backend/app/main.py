@@ -62,3 +62,4 @@ def root():
             "national_portal": settings.CYBER_PORTAL_URL
         }
     }
+

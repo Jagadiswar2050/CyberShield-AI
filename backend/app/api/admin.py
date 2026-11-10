@@ -158,3 +158,4 @@ def get_system_health(db: Session = Depends(get_db)):
             "audit_trail_events": audit_count
         }
     }
+

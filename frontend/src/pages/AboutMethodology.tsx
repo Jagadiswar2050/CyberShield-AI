@@ -105,3 +105,4 @@ export const AboutMethodology: React.FC = () => {
     </div>
   );
 };
+

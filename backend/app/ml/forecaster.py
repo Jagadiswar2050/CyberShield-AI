@@ -89,3 +89,4 @@ class FinancialForecaster:
         }
 
 financial_forecaster = FinancialForecaster()
+

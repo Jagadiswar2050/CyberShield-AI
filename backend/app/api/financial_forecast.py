@@ -20,3 +20,4 @@ def get_forecast(
         trend_factor=trend_factor,
         seasonality_amplitude=seasonality
     )
+

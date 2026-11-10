@@ -15,3 +15,4 @@ Write-Host ""
 Write-Host "Both servers launched!" -ForegroundColor Yellow
 Write-Host "API Documentation: http://127.0.0.1:8000/docs" -ForegroundColor White
 Write-Host "Web Application:   http://localhost:5173" -ForegroundColor White
+

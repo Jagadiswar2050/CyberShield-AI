@@ -14,3 +14,4 @@ def chat_with_assistant(req: ChatRequest):
     Strictly forbids asking for OTP/PIN, provides direct links to 1930 and cybercrime.gov.in.
     """
     return rag_engine.generate_response(req.message)
+

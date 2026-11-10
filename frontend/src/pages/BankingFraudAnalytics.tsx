@@ -195,3 +195,4 @@ export const BankingFraudAnalytics: React.FC = () => {
     </div>
   );
 };
+

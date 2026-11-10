@@ -146,3 +146,4 @@ def seed_database(db: Session):
             db.add(CaseStudy(**cs))
 
     db.commit()
+

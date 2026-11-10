@@ -77,3 +77,4 @@ def get_user_reports(
         "count": len(reports),
         "data": reports
     }
+

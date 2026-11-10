@@ -205,3 +205,4 @@ export const AiAssistant: React.FC = () => {
     </div>
   );
 };
+

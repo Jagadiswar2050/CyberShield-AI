@@ -221,3 +221,4 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => 
     </nav>
   );
 };
+

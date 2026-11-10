@@ -67,3 +67,4 @@ Official Indian financial and cybercrime metrics are stored with metadata:
 - **Direct Source URL**
 - **Methodology & Scope Distinction**: Distinguishes formal police FIRs from citizen helpline complaints, and initial amount involved from actual net unrecovered financial loss.
 - **Demo Data Tag**: All simulation models display `SYNTHETIC DEMO DATA — NOT LIVE BANK DATA`.
+

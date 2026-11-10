@@ -54,3 +54,4 @@ def decode_token(token: str) -> Optional[dict]:
         return payload
     except jwt.PyJWTError:
         return None
+

@@ -156,3 +156,4 @@ class MLFraudDetector:
         }
 
 fraud_detector = MLFraudDetector()
+

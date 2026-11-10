@@ -37,3 +37,4 @@ def get_case_studies(db: Session = Depends(get_db)):
         "count": len(studies),
         "data": studies
     }
+

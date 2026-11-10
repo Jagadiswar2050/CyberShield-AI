@@ -63,3 +63,4 @@ def require_role(allowed_roles: List[str]):
 require_super_admin = require_role([UserRole.SUPER_ADMIN])
 require_reviewer_or_admin = require_role([UserRole.SUPER_ADMIN, UserRole.REVIEWER])
 require_authenticated_user = require_role([UserRole.SUPER_ADMIN, UserRole.REVIEWER, UserRole.USER])
+

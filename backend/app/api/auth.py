@@ -137,3 +137,4 @@ def update_user_role(
     db.commit()
 
     return {"message": f"Successfully updated role for {target_user.email} to {req.new_role}"}
+

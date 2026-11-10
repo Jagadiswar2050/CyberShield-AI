@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: cybershield-api
+    runtime: python
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OWNER_EMAIL
+        value: jagadishkrishna7@gmail.com
+      - key: OWNER_NAME
+        value: "Thallapaka Jagadiswar"
+      - key: OWNER_WEBSITE
+        value: "https://www.audit3a.com/"

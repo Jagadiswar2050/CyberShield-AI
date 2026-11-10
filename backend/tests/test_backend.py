@@ -78,3 +78,4 @@ def test_rag_assistant_emergency_guidance():
     assert "1930" in data["response"]
     assert "https://cybercrime.gov.in/" in data["response"]
     assert data["creator_attribution"]["website"] == "https://www.audit3a.com/"
+
