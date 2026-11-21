@@ -1,11 +1,23 @@
 export interface User {
-  id: number;
+  id: string | number;
   email: string;
   full_name: string;
   role: 'super_admin' | 'reviewer' | 'user' | 'guest';
   is_active: boolean;
   created_at?: string;
   last_login?: string;
+}
+
+export interface LoginHistoryItem {
+  id: string;
+  user_id?: string;
+  email: string;
+  login_timestamp: string;
+  status: 'SUCCESS' | 'FAILED' | 'BLOCKED';
+  ip_address?: string;
+  user_agent?: string;
+  auth_method?: string;
+  created_at?: string;
 }
 
 export interface OfficialStatistic {

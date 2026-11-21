@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Users, Activity, FileText, Database, Lock, RefreshCw, AlertTriangle, ExternalLink } from 'lucide-react';
+import { ShieldCheck, Users, Activity, FileText, Database, Lock, RefreshCw, AlertTriangle, ExternalLink, Key } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { apiService } from '../services/api';
-import { User } from '../types';
+import { supabaseGetLoginHistory, supabaseUpdateUserRole, supabaseToggleUserStatus, SUPABASE_CONFIG } from '../services/supabase';
+import { User, LoginHistoryItem } from '../types';
 
 export const AdminDashboard: React.FC = () => {
   const { user, isSuperAdmin, creatorWebsite } = useAuth();
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'audit' | 'sources'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'audit' | 'logins'>('overview');
   const [health, setHealth] = useState<any>(null);
   const [usersList, setUsersList] = useState<User[]>([]);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [loginHistory, setLoginHistory] = useState<LoginHistoryItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -28,6 +30,9 @@ export const AdminDashboard: React.FC = () => {
       } else if (activeTab === 'audit') {
         const a = await apiService.getAdminAuditLogs();
         setAuditLogs(a);
+      } else if (activeTab === 'logins') {
+        const history = await supabaseGetLoginHistory();
+        setLoginHistory(history);
       }
     } catch (err) {
       console.error(err);
@@ -36,22 +41,32 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  const handleToggleUser = async (userId: number) => {
+  const handleToggleUser = async (userId: string | number, currentStatus: boolean) => {
     try {
-      const res = await fetch(`/api/v1/admin/users/${userId}/toggle-status`, {
+      const ok = await supabaseToggleUserStatus(userId, currentStatus);
+      if (ok) {
+        loadAdminData();
+        return;
+      }
+      // Fallback
+      await fetch(`/api/v1/admin/users/${userId}/toggle-status`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${localStorage.getItem('cybershield_token')}` }
       });
-      if (res.ok) {
-        loadAdminData();
-      }
-    } catch (err) {
+      loadAdminData();
+    } catch {
       alert("Failed to toggle status");
     }
   };
 
-  const handleChangeRole = async (userId: number, newRole: string) => {
+  const handleChangeRole = async (userId: string | number, newRole: string) => {
     try {
+      const ok = await supabaseUpdateUserRole(userId, newRole);
+      if (ok) {
+        loadAdminData();
+        return;
+      }
+      // Fallback
       const res = await fetch('/api/v1/auth/update-role', {
         method: 'POST',
         headers: {
@@ -126,6 +141,15 @@ export const AdminDashboard: React.FC = () => {
             }`}
           >
             Audit Trail
+          </button>
+          <button
+            onClick={() => setActiveTab('logins')}
+            className={`px-3 py-1.5 rounded font-bold transition-all flex items-center gap-1.5 ${
+              activeTab === 'logins' ? 'bg-amber-500 text-black shadow-amber-glow' : 'text-slate-300 hover:text-white'
+            }`}
+          >
+            <Database className="w-3 h-3" />
+            <span>Supabase Logins</span>
           </button>
         </div>
       </div>
@@ -213,7 +237,7 @@ export const AdminDashboard: React.FC = () => {
                             Set {u.role === 'reviewer' ? 'User' : 'Reviewer'}
                           </button>
                           <button
-                            onClick={() => handleToggleUser(u.id)}
+                            onClick={() => handleToggleUser(u.id, u.is_active)}
                             className="px-2.5 py-1 rounded bg-red-950/40 hover:bg-red-950/60 text-red-300 border border-red-500/30"
                           >
                             {u.is_active ? 'Deactivate' : 'Activate'}
@@ -226,6 +250,76 @@ export const AdminDashboard: React.FC = () => {
               </tbody>
             </table>
           </div>
+        </div>
+      ) : activeTab === 'logins' ? (
+        <div className="p-6 rounded-xl bg-cyber-card border border-slate-800 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+            <div>
+              <h2 className="text-base font-bold text-white font-mono flex items-center gap-2">
+                <Database className="w-4 h-4 text-amber-400" />
+                <span>Supabase Cloud Authentication & Login History</span>
+              </h2>
+              <p className="text-xs text-slate-400 font-mono mt-0.5">
+                Target: <span className="text-cyber-cyanGlow">{SUPABASE_CONFIG.url}</span> • Table: <code className="text-slate-300">public.user_login_history</code>
+              </p>
+            </div>
+            <button
+              onClick={loadAdminData}
+              className="self-start sm:self-auto px-3 py-1.5 rounded bg-cyber-darkest border border-slate-700 hover:border-amber-500/50 text-slate-300 hover:text-white text-xs font-mono flex items-center gap-1.5 transition-all"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>Refresh Telemetry</span>
+            </button>
+          </div>
+
+          {loginHistory.length === 0 ? (
+            <div className="py-12 text-center text-slate-500 font-mono text-xs">
+              No login history recorded in Supabase yet.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-mono">
+                <thead className="bg-cyber-darkest text-slate-400 border-b border-slate-800">
+                  <tr>
+                    <th className="p-3">Status</th>
+                    <th className="p-3">User Email</th>
+                    <th className="p-3">Login Timestamp</th>
+                    <th className="p-3">Method</th>
+                    <th className="p-3">Client / Browser</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800 text-slate-300">
+                  {loginHistory.map((item) => (
+                    <tr key={item.id} className="hover:bg-slate-900/40">
+                      <td className="p-3">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                          item.status === 'SUCCESS' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                          item.status === 'BLOCKED' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                          'bg-red-500/20 text-red-300 border border-red-500/30'
+                        }`}>
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="p-3 font-semibold text-white">
+                        {item.email}
+                      </td>
+                      <td className="p-3 text-slate-400 whitespace-nowrap">
+                        {new Date(item.login_timestamp).toLocaleString()}
+                      </td>
+                      <td className="p-3">
+                        <span className="px-2 py-0.5 rounded bg-slate-800/80 text-[10px] text-cyber-gold font-mono uppercase">
+                          {item.auth_method || 'password'}
+                        </span>
+                      </td>
+                      <td className="p-3 text-slate-400 text-[11px] max-w-xs truncate" title={item.user_agent}>
+                        {item.user_agent || 'Web Client'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       ) : (
         <div className="p-6 rounded-xl bg-cyber-card border border-slate-800 space-y-4">
