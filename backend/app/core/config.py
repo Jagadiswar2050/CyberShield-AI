@@ -19,6 +19,10 @@ class Settings(BaseModel):
     # Database
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./cybershield.db")
     
+    # Supabase Cloud Integration
+    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "https://kjmomccmwyqndspkfloq.supabase.co")
+    SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "sb_publishable_kfJtXE81i6228mzrxwOJIg_fmC7pWSO")
+    
     # Official National Cyber Crime Emergency Details
     CYBER_EMERGENCY_HELPLINE: str = "1930"
     CYBER_PORTAL_URL: str = "https://cybercrime.gov.in/"

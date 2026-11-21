@@ -51,3 +51,4 @@ To ensure strict academic honesty and legal compliance, the following items are 
 3. **Automated Live Account Freezing / Card Blocking**:
    - External platforms cannot execute payment blocks on third-party commercial bank accounts.
    - **Handling:** The AI assistant guides victims to contact the phone number printed on the back of their debit card to initiate immediate card blocking.
+
